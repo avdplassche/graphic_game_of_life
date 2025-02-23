@@ -2,4 +2,4 @@
 
 make clean
 make
-./program 150 150
+./program 249 249

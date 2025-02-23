@@ -22,21 +22,21 @@
 # define GREENBG "\033[42m"
 # define REDBG "\033[41m"
 
-# define RATIO 1
+# define RATIO 1.2
 # define WIDTH 1280*RATIO
 # define HEIGHT 720*RATIO
-# define TABLE_S 500*RATIO
+# define TABLE_H 700*RATIO
 
 typedef struct s_view
 {
 	char	*table;
 	char	*new_table;
-	int		width;
-	int		height;
+	int		col;
+	int		lines;
     int     x;
     int     y;
 	int		len;
-    int     rect_size;
+    float     rect_size;
 } t_view;
 
 t_view  	init_game_of_life(int argc, char **argv);

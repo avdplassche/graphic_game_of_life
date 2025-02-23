@@ -5,48 +5,68 @@
 
 //500 x 500
 
+void	draw_limits(SDL_Renderer *renderer, float x_origin, float y_origin)
+{
+	SDL_SetRenderDrawColor(renderer,  255, 255, 255, 50);
+	SDL_RenderLine(renderer, x_origin, y_origin, x_origin + TABLE_H, y_origin);
+	SDL_RenderLine(renderer, x_origin, y_origin, x_origin, y_origin + TABLE_H);
+	SDL_RenderLine(renderer, x_origin + TABLE_H, y_origin, x_origin + TABLE_H, y_origin + TABLE_H);
+	SDL_RenderLine(renderer, x_origin, y_origin + TABLE_H, x_origin + TABLE_H, y_origin + TABLE_H);
+
+}
+
 
 void    display_table(t_view *v, SDL_Renderer *renderer)
 {
     int i = 0;
-    int x;
-    int y;
-    int x_origin;
-	int y_origin;
+    float x;
+    float y;
+    float x_origin;
+	float y_origin;
 
-	x = (WIDTH - TABLE_S) / 2;
+	x = (WIDTH - TABLE_H) / 2;
     x_origin = x;
-	y = (HEIGHT - TABLE_S) / 2;
+	y = (HEIGHT - TABLE_H) / 2;
 	y_origin = y;
-	printf("x : %d\n y : %d\n", x, y);
 
-    if (v->table[i] == 1)
-    {
-        // SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-        SDL_FRect rect = {x, y, v->rect_size, v->rect_size};
-        SDL_RenderFillRect(renderer, &rect);
-    }
+    // if (v->table[i] == 1)
+    // {
+    //     // SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    //     SDL_FRect rect = {x, y, v->rect_size, v->rect_size};
+    //     SDL_RenderFillRect(renderer, &rect);
+    // }
     x += v->rect_size;
     i++;
     while (i <= v->len)
     {
 		if (v->table[i] == 1)
         {
-			SDL_SetRenderDrawColor(renderer, 0, 100, 127, SDL_ALPHA_OPAQUE);
+			SDL_SetRenderDrawColor(renderer, 0, 150, 157, SDL_ALPHA_OPAQUE);
 		    SDL_FRect rect = {x, y, v->rect_size, v->rect_size};
 		    SDL_RenderFillRect(renderer, &rect);
-			SDL_SetRenderDrawColor(renderer,  0, 0, 255, SDL_ALPHA_OPAQUE);
+			SDL_SetRenderDrawColor(renderer,  255, 0, 255, SDL_ALPHA_OPAQUE);
 			SDL_RenderRect(renderer, &rect);
         }
+		else
+		{
+			SDL_SetRenderDrawColor(renderer, 42, 10, 126, SDL_ALPHA_OPAQUE);
+		    SDL_FRect rect = {x, y, v->rect_size, v->rect_size};
+		    SDL_RenderFillRect(renderer, &rect);
+			// SDL_SetRenderDrawColor(renderer,  255, 0, 255, SDL_ALPHA_OPAQUE);
+			SDL_RenderRect(renderer, &rect);
+		}
         x += v->rect_size;
         i++;
-        if (i % v->width == 0)
+        if (i % v->col == 0)
         {
 			x = x_origin;
             y += v->rect_size;
         }
     }
 	// SDL_FRect rect = {x_origin, y_origin, TABLE_S, TABLE_S};
+	draw_limits(renderer, x_origin, y_origin);
+
+	// SDL_SetRenderDrawColor(renderer, 0, 150, 0, SDL_ALPHA_OPAQUE);
 	// SDL_RenderFillRect(renderer, &rect);
 }
 
@@ -85,7 +105,6 @@ int main(int argc, char* argv[]) {
     // Target 60 FPS (16.67ms per frame)
 
     bool running = true;
-    int frames = 400;
 
     v = init_game_of_life(argc, argv);
 
@@ -110,7 +129,7 @@ int main(int argc, char* argv[]) {
         update_frame(&v);
         display_table(&v, renderer);
         SDL_RenderPresent(renderer);
-        usleep(150 * 1000);
+        usleep(50 * 1000);
         // }
 
 
